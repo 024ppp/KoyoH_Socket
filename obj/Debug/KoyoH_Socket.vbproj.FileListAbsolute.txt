@@ -1,0 +1,12 @@
+C:\KoyoH_Socket\bin\Debug\KoyoH_Socket.exe
+C:\KoyoH_Socket\bin\Debug\KoyoH_Socket.pdb
+C:\KoyoH_Socket\bin\Debug\KoyoH_Socket.xml
+C:\KoyoH_Socket\bin\Debug\Oracle.DataAccess.dll
+C:\KoyoH_Socket\bin\Debug\SZKDLL_Orc.dll
+C:\KoyoH_Socket\obj\Debug\ResolveAssemblyReference.cache
+C:\KoyoH_Socket\obj\Debug\KoyoH_Socket.Resources.resources
+C:\KoyoH_Socket\obj\Debug\KoyoH_Socket.vbproj.GenerateResource.Cache
+C:\KoyoH_Socket\obj\Debug\KoyoH_Socket.exe
+C:\KoyoH_Socket\obj\Debug\KoyoH_Socket.xml
+C:\KoyoH_Socket\obj\Debug\KoyoH_Socket.pdb
+C:\KoyoH_Socket\obj\Debug\KoyoH_Socket.Form1.resources
