@@ -3,7 +3,7 @@
         COMMAND_LENGTH = 3
         SAG
         VKO
-        AM1
+        AMI
         UPD
         ERR
     End Enum

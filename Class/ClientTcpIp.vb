@@ -53,30 +53,39 @@ Public Class ClientTcpIp
                     'クライアントから受信した値をもとに、処理を選択する
                     Select Case sCmdText
                         Case ProcessCommand.pc.SAG.ToString
-                            sSendData = sCmdText & dbAction.getSagyoName()
+                            Dim names As String = ""
+
+                            If dbAction.getSagyoName(names) Then
+                                sSendData = sCmdText & names
+                            Else
+                                Call writeErrMsg(dbAction.ErrMsg)
+                                sSendData = sErr & dbAction.ErrMsg
+                            End If
 
                         Case ProcessCommand.pc.VKO.ToString
                             If dbAction.checkVkonName(sExcludeCmdText) Then
                                 'Vコンが存在している場合、受信データを送り返す
                                 sSendData = sCmdText & sExcludeCmdText
                             Else
-                                sSendData = sErr & "Vコンが存在しません。"
+                                Call writeErrMsg(dbAction.ErrMsg)
+                                sSendData = sErr & dbAction.ErrMsg
                             End If
 
                         Case ProcessCommand.pc.UPD.ToString
                             If dbAction.Update(sExcludeCmdText) Then
                                 sSendData = sCmdText & "更新に成功しました。"
                             Else
-                                sSendData = sCmdText & "更新失敗！"
+                                Call writeErrMsg(dbAction.ErrMsg)
+                                sSendData = sErr & "更新失敗！"
                             End If
 
                         Case Else
                             sSendData = "case else"
                     End Select
 
-                    'フォームに書き出し
-                    Call WriteTextBox("Received:" & msg & vbCrLf _
-                                    & "Send:" & sSendData)
+                    ''フォームに書き出し(DEBUG)
+                    'Call writeErrMsg("Received:" & msg & vbCrLf _
+                    '                & "Send:" & sSendData)
 
                     sdat = System.Text.Encoding.GetEncoding("UTF-8").GetBytes(sSendData & vbCrLf)
                     ' ソケット送信
@@ -91,6 +100,8 @@ Public Class ClientTcpIp
                 End If
             End While
         Catch ex As Exception
+            '書き込み
+            _Form1.Invoke(TextBox1Delegate, New Object() {ex.Message})
         End Try
     End Sub
 
@@ -101,15 +112,26 @@ Public Class ClientTcpIp
     End Sub
 
     'テキストボックスに値を設定する
-    Public Sub WriteTextBox(ByVal msg As String)
-        Dim sTextBox1 As String = _Form1.TextBox1.Text
+    Public Sub writeErrMsg(ByVal msg As String)
+        Try
+            Dim sTextBox1 As String = _Form1.TextBox1.Text
 
-        If sTextBox1 <> "" Then
-            sTextBox1 = sTextBox1 & vbCrLf
-        End If
+            If msg.Equals("") Then
+                Exit Sub
+            End If
 
-        '書き込み
-        _Form1.Invoke(TextBox1Delegate, New Object() {sTextBox1 & msg})
+            '新規メッセージを一番上に配置するため
+            If sTextBox1 <> "" Then
+                sTextBox1 = vbCrLf & sTextBox1
+            End If
+
+            '書き込み
+            _Form1.Invoke(TextBox1Delegate, New Object() {msg & sTextBox1})
+
+        Catch ex As Exception
+            '書き込み
+            _Form1.Invoke(TextBox1Delegate, New Object() {ex.Message})
+        End Try
     End Sub
 
 End Class

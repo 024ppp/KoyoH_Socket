@@ -6,7 +6,11 @@
   <myPort>
     8888
   </myPort>
+  
+  <!-- プログラム内で取得しているため未使用。
   <ipAdd>
     10.1.1.55
   </ipAdd>
+  -->
+  
 </configuration>
